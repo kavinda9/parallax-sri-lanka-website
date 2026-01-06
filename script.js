@@ -16,17 +16,29 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 const welcome = document.getElementById("welcome");
 const scrollIndicator = document.querySelector(".scroll-indicator");
 
-// Sigiriya parallax layers
-const layer1 = document.getElementById("layer1");
-const layer2 = document.getElementById("layer2");
-const layer3 = document.getElementById("layer3");
-const layer4 = document.getElementById("layer4");
-const sigiriyaMain = document.getElementById("sigiriya-main");
+// Sigiriya bubble animation elements
+const bubble = document.getElementById("bubble");
+const sigiriyaLayer = document.getElementById("sigiriya-layer");
+const layer1Anim = document.getElementById("layer1-anim");
+const layer2Anim = document.getElementById("layer2-anim");
+const layer3Anim = document.getElementById("layer3-anim");
+const layer4Anim = document.getElementById("layer4-anim");
+const sigiriyaInfo = document.getElementById("sigiriya-info");
+
+// Track which layers are already in bubble
+let layersInBubble = {
+  sigiriya: false,
+  layer1: false,
+  layer2: false,
+  layer3: false,
+  layer4: false,
+};
 
 // Parallax scroll effect
 window.addEventListener("scroll", function () {
   let value = window.scrollY;
 
+  // Parallax effect for welcome image
   if (welcome) {
     welcome.style.top = value * 0.5 + "px";
   }
@@ -40,68 +52,99 @@ window.addEventListener("scroll", function () {
     }
   }
 
-  // Sigiriya gradual reveal effect
+  // Sigiriya bubble shrink animation
   const sigiriyaSection = document.getElementById("sigiriya");
   if (sigiriyaSection) {
     const sectionTop = sigiriyaSection.offsetTop;
-    const sectionHeight = sigiriyaSection.offsetHeight;
+    const unitHeight = window.innerHeight;
+    const scrollUnits = (value - sectionTop) / unitHeight;
 
-    // Calculate scroll progress through the section (0 to 9 units)
-    const scrollIntoSection = value - sectionTop;
-    const unitHeight = window.innerHeight; // 1 unit = 100vh
-    const scrollUnits = scrollIntoSection / unitHeight;
-
-    // Only apply effects when in section view
-    if (scrollUnits >= 0 && scrollUnits <= 9) {
-      // Layer 4 appears at 2 units
-      if (layer4) {
-        if (scrollUnits >= 2) {
-          layer4.classList.add("visible");
-          layer4.style.transform = `translateY(${(scrollUnits - 2) * -50}px)`;
-        } else {
-          layer4.classList.remove("visible");
-        }
+    // Animation happens between 0-6 units
+    if (scrollUnits >= 0 && scrollUnits <= 6) {
+      // Unit 0-1: Sigiriya appears full screen
+      if (scrollUnits >= 0 && scrollUnits < 2) {
+        sigiriyaLayer.classList.add("active");
+        sigiriyaLayer.classList.remove("shrinking", "in-bubble");
+        layersInBubble.sigiriya = false;
       }
 
-      // Sigiriya main appears at 4 units
-      if (sigiriyaMain) {
-        if (scrollUnits >= 4) {
-          sigiriyaMain.classList.add("visible");
-          sigiriyaMain.style.transform = `translateY(${
-            (scrollUnits - 4) * -30
-          }px)`;
-        } else {
-          sigiriyaMain.classList.remove("visible");
-        }
+      // Unit 2: Sigiriya starts shrinking into bubble
+      if (scrollUnits >= 2 && scrollUnits < 2.5) {
+        const progress = (scrollUnits - 2) * 2; // 0 to 1
+        sigiriyaLayer.classList.add("shrinking");
+        sigiriyaLayer.style.opacity = 1;
       }
 
-      // Layer 1 and 3 appear at 6 units (behind sigiriya)
-      if (layer1) {
-        if (scrollUnits >= 6) {
-          layer1.classList.add("visible");
-          layer1.style.transform = `translateY(${(scrollUnits - 6) * -20}px)`;
-        } else {
-          layer1.classList.remove("visible");
-        }
+      // Unit 2.5: Sigiriya locked in bubble
+      if (scrollUnits >= 2.5 && !layersInBubble.sigiriya) {
+        bubble.classList.add("visible");
+        sigiriyaLayer.classList.remove("shrinking");
+        sigiriyaLayer.classList.add("in-bubble");
+
+        // Move to bubble frame
+        const bubbleFrame = document.querySelector(".bubble-frame");
+        bubbleFrame.appendChild(sigiriyaLayer);
+        layersInBubble.sigiriya = true;
       }
 
-      if (layer3) {
-        if (scrollUnits >= 6) {
-          layer3.classList.add("visible");
-          layer3.style.transform = `translateY(${(scrollUnits - 6) * -25}px)`;
-        } else {
-          layer3.classList.remove("visible");
-        }
+      // Unit 3: Layer 1 (trees) appears and shrinks
+      if (scrollUnits >= 3 && scrollUnits < 3.5) {
+        layer1Anim.classList.add("active", "shrinking");
+      }
+      if (scrollUnits >= 3.5 && !layersInBubble.layer1) {
+        layer1Anim.classList.remove("shrinking");
+        layer1Anim.classList.add("in-bubble");
+        const bubbleFrame = document.querySelector(".bubble-frame");
+        bubbleFrame.appendChild(layer1Anim);
+        layersInBubble.layer1 = true;
       }
 
-      // Layer 2 appears at 7 units (front)
-      if (layer2) {
-        if (scrollUnits >= 7) {
-          layer2.classList.add("visible");
-          layer2.style.transform = `translateY(${(scrollUnits - 7) * -60}px)`;
-        } else {
-          layer2.classList.remove("visible");
-        }
+      // Unit 3.5: Layer 3 (background) appears and shrinks
+      if (scrollUnits >= 3.5 && scrollUnits < 4) {
+        layer3Anim.classList.add("active", "shrinking");
+      }
+      if (scrollUnits >= 4 && !layersInBubble.layer3) {
+        layer3Anim.classList.remove("shrinking");
+        layer3Anim.classList.add("in-bubble");
+        const bubbleFrame = document.querySelector(".bubble-frame");
+        bubbleFrame.appendChild(layer3Anim);
+        layersInBubble.layer3 = true;
+      }
+
+      // Unit 4: Layer 2 (bushes) appears and shrinks
+      if (scrollUnits >= 4 && scrollUnits < 4.5) {
+        layer2Anim.classList.add("active", "shrinking");
+      }
+      if (scrollUnits >= 4.5 && !layersInBubble.layer2) {
+        layer2Anim.classList.remove("shrinking");
+        layer2Anim.classList.add("in-bubble");
+        const bubbleFrame = document.querySelector(".bubble-frame");
+        bubbleFrame.appendChild(layer2Anim);
+        layersInBubble.layer2 = true;
+      }
+
+      // Unit 4.5: Layer 4 (foreground) appears and shrinks
+      if (scrollUnits >= 4.5 && scrollUnits < 5) {
+        layer4Anim.classList.add("active", "shrinking");
+      }
+      if (scrollUnits >= 5 && !layersInBubble.layer4) {
+        layer4Anim.classList.remove("shrinking");
+        layer4Anim.classList.add("in-bubble");
+        const bubbleFrame = document.querySelector(".bubble-frame");
+        bubbleFrame.appendChild(layer4Anim);
+        layersInBubble.layer4 = true;
+      }
+
+      // Unit 5-6: Bubble moves down with all layers fixed
+      if (scrollUnits >= 5) {
+        const bubbleOffset = (scrollUnits - 5) * 100;
+        bubble.style.transform = `translate(-50%, calc(-50% + ${bubbleOffset}px))`;
+      }
+
+      // Show info when bubble is complete
+      if (scrollUnits >= 5 && sigiriyaInfo) {
+        sigiriyaInfo.style.opacity = "1";
+        sigiriyaInfo.style.transform = "translateY(0)";
       }
     }
   }
@@ -122,6 +165,7 @@ if (topButton) {
   topButton.style.display = "none";
 }
 
+// Active navigation on scroll
 window.addEventListener("scroll", function () {
   const sections = document.querySelectorAll("section, .content");
   const navLinks = document.querySelectorAll("#header ul li a");
