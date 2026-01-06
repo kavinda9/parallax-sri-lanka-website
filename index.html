@@ -50,52 +50,37 @@
         Ocean.
       </p>
 
-      <!-- Sigiriya Section with gradual reveal -->
+      <!-- Sigiriya Section with zoom and bubble effect -->
       <section class="location-section" id="sigiriya">
-        <!-- Layer 4 appears at scroll 2 units -->
-        <img
-          src="images/4.png"
-          alt="Sigiriya Layer 4"
-          class="parallax-layer reveal-layer"
-          id="layer4"
-          data-reveal="2"
-        />
+        <!-- The bubble container that holds all shrunken images -->
+        <div class="bubble-container" id="bubble">
+          <div class="bubble-frame">
+            <!-- Images will be placed here when they shrink -->
+          </div>
+        </div>
 
-        <!-- Sigiriya main appears at scroll 4 units -->
-        <img
-          src="images/sigiriya.png"
-          alt="Sigiriya Background"
-          class="parallax-layer reveal-layer"
-          id="sigiriya-main"
-          data-reveal="4"
-        />
+        <!-- Animated layers that shrink into bubble -->
+        <div class="shrink-layer" id="sigiriya-layer" data-shrink-at="2">
+          <img src="images/sigiriya.png" alt="Sigiriya" />
+        </div>
 
-        <!-- Layer 1 and 3 appear at scroll 6 units (behind sigiriya) -->
-        <img
-          src="images/1.png"
-          alt="Sigiriya Layer 1"
-          class="parallax-layer reveal-layer"
-          id="layer1"
-          data-reveal="6"
-        />
-        <img
-          src="images/3.png"
-          alt="Sigiriya Layer 3"
-          class="parallax-layer reveal-layer"
-          id="layer3"
-          data-reveal="6"
-        />
+        <div class="shrink-layer" id="layer1-anim" data-shrink-at="3">
+          <img src="images/1.png" alt="Trees" />
+        </div>
 
-        <!-- Layer 2 appears at scroll 7 units (front) -->
-        <img
-          src="images/2.png"
-          alt="Sigiriya Layer 2"
-          class="parallax-layer reveal-layer"
-          id="layer2"
-          data-reveal="7"
-        />
+        <div class="shrink-layer" id="layer2-anim" data-shrink-at="4">
+          <img src="images/2.png" alt="Bushes" />
+        </div>
 
-        <div class="location-info">
+        <div class="shrink-layer" id="layer3-anim" data-shrink-at="3.5">
+          <img src="images/3.png" alt="Background" />
+        </div>
+
+        <div class="shrink-layer" id="layer4-anim" data-shrink-at="4.5">
+          <img src="images/4.png" alt="Foreground" />
+        </div>
+
+        <div class="location-info" id="sigiriya-info">
           <h3>Sigiriya - The Lion Rock</h3>
           <p>
             An ancient rock fortress and UNESCO World Heritage Site, Sigiriya
