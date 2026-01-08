@@ -23,7 +23,6 @@ const layer1Anim = document.getElementById("layer1-anim");
 const layer2Anim = document.getElementById("layer2-anim");
 const layer3Anim = document.getElementById("layer3-anim");
 const layer4Anim = document.getElementById("layer4-anim");
-const sigiriyaInfo = document.getElementById("sigiriya-info");
 
 // Store original parent for reset
 const originalParent = document.getElementById("sigiriya");
@@ -46,187 +45,130 @@ window.addEventListener("scroll", function () {
     }
   }
 
-  // Sigiriya bubble shrink animation
+  // Sigiriya bubble animation
   const sigiriyaSection = document.getElementById("sigiriya");
   if (sigiriyaSection) {
     const sectionTop = sigiriyaSection.offsetTop;
     const unitHeight = window.innerHeight;
     const scrollUnits = (value - sectionTop) / unitHeight;
 
-    // Reset everything if scrolled above section
-    if (scrollUnits < 0) {
+    // Reset if outside section
+    if (scrollUnits < 0 || scrollUnits > 5) {
       resetAllLayers();
       return;
     }
 
-    // Reset everything if scrolled past section
-    if (scrollUnits > 6) {
-      return;
+    // Show bubble when animation starts
+    if (scrollUnits >= 0) {
+      bubble.classList.add("visible");
     }
 
-    // Animation happens between 0-6 units
-    if (scrollUnits >= 0 && scrollUnits <= 6) {
-      // Unit 0-1: Sigiriya appears full screen
-      if (scrollUnits >= 0 && scrollUnits < 2) {
-        sigiriyaLayer.classList.add("active");
-        sigiriyaLayer.classList.remove("shrinking", "in-bubble");
-        sigiriyaLayer.style.transform = "";
+    // Unit 1: Sigiriya appears in bubble size
+    if (scrollUnits >= 1 && scrollUnits < 1.5) {
+      sigiriyaLayer.classList.add("appearing");
+    } else if (scrollUnits < 1) {
+      sigiriyaLayer.classList.remove("appearing", "in-bubble");
+      if (sigiriyaLayer.parentElement.classList.contains("bubble-circle")) {
+        originalParent.appendChild(sigiriyaLayer);
+      }
+    }
 
-        // Hide other layers
-        layer1Anim.classList.remove("active", "shrinking", "in-bubble");
-        layer2Anim.classList.remove("active", "shrinking", "in-bubble");
-        layer3Anim.classList.remove("active", "shrinking", "in-bubble");
-        layer4Anim.classList.remove("active", "shrinking", "in-bubble");
-        bubble.classList.remove("visible");
+    // Unit 1.5: Lock sigiriya in bubble
+    if (scrollUnits >= 1.5) {
+      if (!sigiriyaLayer.classList.contains("in-bubble")) {
+        sigiriyaLayer.classList.add("in-bubble");
+        const bubbleCircle = document.querySelector(".bubble-circle");
+        bubbleCircle.appendChild(sigiriyaLayer);
+      }
+    }
+
+    // Unit 2: Layer 1 appears
+    if (scrollUnits >= 2 && scrollUnits < 2.5) {
+      layer1Anim.classList.add("appearing");
+    } else if (scrollUnits < 2) {
+      layer1Anim.classList.remove("appearing", "in-bubble");
+      if (layer1Anim.parentElement.classList.contains("bubble-circle")) {
+        originalParent.appendChild(layer1Anim);
+      }
+    }
+
+    if (scrollUnits >= 2.5) {
+      if (!layer1Anim.classList.contains("in-bubble")) {
+        layer1Anim.classList.add("in-bubble");
+        const bubbleCircle = document.querySelector(".bubble-circle");
+        bubbleCircle.appendChild(layer1Anim);
+      }
+    }
+
+    // Unit 2.5: Layer 3 appears
+    if (scrollUnits >= 2.5 && scrollUnits < 3) {
+      layer3Anim.classList.add("appearing");
+    } else if (scrollUnits < 2.5) {
+      layer3Anim.classList.remove("appearing", "in-bubble");
+      if (layer3Anim.parentElement.classList.contains("bubble-circle")) {
+        originalParent.appendChild(layer3Anim);
+      }
+    }
+
+    if (scrollUnits >= 3) {
+      if (!layer3Anim.classList.contains("in-bubble")) {
+        layer3Anim.classList.add("in-bubble");
+        const bubbleCircle = document.querySelector(".bubble-circle");
+        bubbleCircle.appendChild(layer3Anim);
+      }
+    }
+
+    // Unit 3: Layer 2 appears
+    if (scrollUnits >= 3 && scrollUnits < 3.5) {
+      layer2Anim.classList.add("appearing");
+    } else if (scrollUnits < 3) {
+      layer2Anim.classList.remove("appearing", "in-bubble");
+      if (layer2Anim.parentElement.classList.contains("bubble-circle")) {
+        originalParent.appendChild(layer2Anim);
+      }
+    }
+
+    if (scrollUnits >= 3.5) {
+      if (!layer2Anim.classList.contains("in-bubble")) {
+        layer2Anim.classList.add("in-bubble");
+        const bubbleCircle = document.querySelector(".bubble-circle");
+        bubbleCircle.appendChild(layer2Anim);
+      }
+    }
+
+    // Unit 3.5: Layer 4 appears
+    if (scrollUnits >= 3.5 && scrollUnits < 4) {
+      layer4Anim.classList.add("appearing");
+    } else if (scrollUnits < 3.5) {
+      layer4Anim.classList.remove("appearing", "in-bubble");
+      if (layer4Anim.parentElement.classList.contains("bubble-circle")) {
+        originalParent.appendChild(layer4Anim);
+      }
+    }
+
+    if (scrollUnits >= 4) {
+      if (!layer4Anim.classList.contains("in-bubble")) {
+        layer4Anim.classList.add("in-bubble");
+        const bubbleCircle = document.querySelector(".bubble-circle");
+        bubbleCircle.appendChild(layer4Anim);
       }
 
-      // Unit 2: Sigiriya starts shrinking into bubble
-      if (scrollUnits >= 2 && scrollUnits < 2.5) {
-        sigiriyaLayer.classList.add("active", "shrinking");
-        sigiriyaLayer.style.opacity = 1;
-      }
-
-      // Unit 2.5: Sigiriya locked in bubble
-      if (scrollUnits >= 2.5) {
-        bubble.classList.add("visible");
-        if (!sigiriyaLayer.classList.contains("in-bubble")) {
-          sigiriyaLayer.classList.remove("shrinking");
-          sigiriyaLayer.classList.add("in-bubble");
-          const bubbleFrame = document.querySelector(".bubble-frame");
-          bubbleFrame.appendChild(sigiriyaLayer);
-        }
-      } else {
-        // If scrolling back, remove from bubble
-        if (sigiriyaLayer.classList.contains("in-bubble")) {
-          sigiriyaLayer.classList.remove("in-bubble");
-          originalParent.appendChild(sigiriyaLayer);
-        }
-      }
-
-      // Unit 3: Layer 1 (trees) appears and shrinks
-      if (scrollUnits >= 3 && scrollUnits < 3.5) {
-        layer1Anim.classList.add("active", "shrinking");
-      } else if (scrollUnits < 3) {
-        layer1Anim.classList.remove("active", "shrinking", "in-bubble");
-        if (layer1Anim.parentElement.classList.contains("bubble-frame")) {
-          originalParent.appendChild(layer1Anim);
-        }
-      }
-
-      if (scrollUnits >= 3.5) {
-        if (!layer1Anim.classList.contains("in-bubble")) {
-          layer1Anim.classList.remove("shrinking");
-          layer1Anim.classList.add("in-bubble");
-          const bubbleFrame = document.querySelector(".bubble-frame");
-          bubbleFrame.appendChild(layer1Anim);
-        }
-      } else if (scrollUnits < 3.5) {
-        if (layer1Anim.classList.contains("in-bubble")) {
-          layer1Anim.classList.remove("in-bubble");
-          originalParent.appendChild(layer1Anim);
-        }
-      }
-
-      // Unit 3.5: Layer 3 (background) appears and shrinks
-      if (scrollUnits >= 3.5 && scrollUnits < 4) {
-        layer3Anim.classList.add("active", "shrinking");
-      } else if (scrollUnits < 3.5) {
-        layer3Anim.classList.remove("active", "shrinking", "in-bubble");
-        if (layer3Anim.parentElement.classList.contains("bubble-frame")) {
-          originalParent.appendChild(layer3Anim);
-        }
-      }
-
-      if (scrollUnits >= 4) {
-        if (!layer3Anim.classList.contains("in-bubble")) {
-          layer3Anim.classList.remove("shrinking");
-          layer3Anim.classList.add("in-bubble");
-          const bubbleFrame = document.querySelector(".bubble-frame");
-          bubbleFrame.appendChild(layer3Anim);
-        }
-      } else if (scrollUnits < 4) {
-        if (layer3Anim.classList.contains("in-bubble")) {
-          layer3Anim.classList.remove("in-bubble");
-          originalParent.appendChild(layer3Anim);
-        }
-      }
-
-      // Unit 4: Layer 2 (bushes) appears and shrinks
-      if (scrollUnits >= 4 && scrollUnits < 4.5) {
-        layer2Anim.classList.add("active", "shrinking");
-      } else if (scrollUnits < 4) {
-        layer2Anim.classList.remove("active", "shrinking", "in-bubble");
-        if (layer2Anim.parentElement.classList.contains("bubble-frame")) {
-          originalParent.appendChild(layer2Anim);
-        }
-      }
-
-      if (scrollUnits >= 4.5) {
-        if (!layer2Anim.classList.contains("in-bubble")) {
-          layer2Anim.classList.remove("shrinking");
-          layer2Anim.classList.add("in-bubble");
-          const bubbleFrame = document.querySelector(".bubble-frame");
-          bubbleFrame.appendChild(layer2Anim);
-        }
-      } else if (scrollUnits < 4.5) {
-        if (layer2Anim.classList.contains("in-bubble")) {
-          layer2Anim.classList.remove("in-bubble");
-          originalParent.appendChild(layer2Anim);
-        }
-      }
-
-      // Unit 4.5: Layer 4 (foreground) appears and shrinks
-      if (scrollUnits >= 4.5 && scrollUnits < 5) {
-        layer4Anim.classList.add("active", "shrinking");
-      } else if (scrollUnits < 4.5) {
-        layer4Anim.classList.remove("active", "shrinking", "in-bubble");
-        if (layer4Anim.parentElement.classList.contains("bubble-frame")) {
-          originalParent.appendChild(layer4Anim);
-        }
-      }
-
-      if (scrollUnits >= 5) {
-        if (!layer4Anim.classList.contains("in-bubble")) {
-          layer4Anim.classList.remove("shrinking");
-          layer4Anim.classList.add("in-bubble");
-          const bubbleFrame = document.querySelector(".bubble-frame");
-          bubbleFrame.appendChild(layer4Anim);
-        }
-
-        // Bubble moves down with all layers fixed
-        const bubbleOffset = (scrollUnits - 5) * 100;
-        bubble.style.transform = `translate(-50%, calc(-50% + ${bubbleOffset}px))`;
-
-        // Show info when bubble is complete
-        if (sigiriyaInfo) {
-          sigiriyaInfo.style.opacity = "1";
-          sigiriyaInfo.style.transform = "translateY(0)";
-        }
-      } else {
-        // Reset bubble position
-        bubble.style.transform = "translate(-50%, -50%)";
-
-        // Hide info
-        if (sigiriyaInfo) {
-          sigiriyaInfo.style.opacity = "0";
-          sigiriyaInfo.style.transform = "translateY(30px)";
-        }
-
-        if (layer4Anim.classList.contains("in-bubble")) {
-          layer4Anim.classList.remove("in-bubble");
-          originalParent.appendChild(layer4Anim);
-        }
-      }
+      // Unit 4-5: Bubble moves down
+      const bubbleOffset = (scrollUnits - 4) * 100;
+      bubble.style.transform = `translate(-50%, calc(-50% + ${bubbleOffset}px))`;
+    } else {
+      bubble.style.transform = "translate(-50%, -50%)";
     }
   }
 });
 
 // Function to reset all layers
 function resetAllLayers() {
-  // Hide bubble
-  if (bubble) bubble.classList.remove("visible");
+  if (bubble) {
+    bubble.classList.remove("visible");
+    bubble.style.transform = "translate(-50%, -50%)";
+  }
 
-  // Reset all layers
   const layers = [
     sigiriyaLayer,
     layer1Anim,
@@ -236,25 +178,15 @@ function resetAllLayers() {
   ];
   layers.forEach((layer) => {
     if (layer) {
-      layer.classList.remove("active", "shrinking", "in-bubble");
-      layer.style.transform = "";
-      // Move back to original parent if needed
-      if (layer.parentElement.classList.contains("bubble-frame")) {
+      layer.classList.remove("appearing", "in-bubble");
+      if (
+        layer.parentElement &&
+        layer.parentElement.classList.contains("bubble-circle")
+      ) {
         originalParent.appendChild(layer);
       }
     }
   });
-
-  // Reset info
-  if (sigiriyaInfo) {
-    sigiriyaInfo.style.opacity = "0";
-    sigiriyaInfo.style.transform = "translateY(30px)";
-  }
-
-  // Reset bubble position
-  if (bubble) {
-    bubble.style.transform = "translate(-50%, -50%)";
-  }
 }
 
 // Show/hide scroll to top button
@@ -267,7 +199,6 @@ window.addEventListener("scroll", function () {
   }
 });
 
-// Initially hide top button
 if (topButton) {
   topButton.style.display = "none";
 }
