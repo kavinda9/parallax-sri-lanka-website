@@ -16,16 +16,46 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 const welcome = document.getElementById("welcome");
 const scrollIndicator = document.querySelector(".scroll-indicator");
 
-// Sigiriya bubble animation elements
+// Sigiriya bubble animation
 const bubble = document.getElementById("bubble");
-const sigiriyaLayer = document.getElementById("sigiriya-layer");
-const layer1Anim = document.getElementById("layer1-anim");
-const layer2Anim = document.getElementById("layer2-anim");
-const layer3Anim = document.getElementById("layer3-anim");
-const layer4Anim = document.getElementById("layer4-anim");
+const bubbleCircle = document.querySelector(".bubble-circle");
 
-// Store original parent for reset
-const originalParent = document.getElementById("sigiriya");
+// Track created images
+let imagesCreated = false;
+let imgSigiriya, imgLayer1, imgLayer2, imgLayer3, imgLayer4;
+
+// Create images inside bubble
+function createBubbleImages() {
+  if (imagesCreated) return;
+
+  // Create images with proper IDs and z-index order
+  imgLayer2 = document.createElement("img");
+  imgLayer2.src = "images/2.png";
+  imgLayer2.id = "img-layer2";
+  bubbleCircle.appendChild(imgLayer2);
+
+  imgLayer3 = document.createElement("img");
+  imgLayer3.src = "images/3.png";
+  imgLayer3.id = "img-layer3";
+  bubbleCircle.appendChild(imgLayer3);
+
+  imgSigiriya = document.createElement("img");
+  imgSigiriya.src = "images/sigiriya.png";
+  imgSigiriya.id = "img-sigiriya";
+  bubbleCircle.appendChild(imgSigiriya);
+
+  imgLayer1 = document.createElement("img");
+  imgLayer1.src = "images/1.png";
+  imgLayer1.id = "img-layer1";
+  bubbleCircle.appendChild(imgLayer1);
+
+  imgLayer4 = document.createElement("img");
+  imgLayer4.src = "images/4.png";
+  imgLayer4.id = "img-layer4";
+  bubbleCircle.appendChild(imgLayer4);
+
+  imagesCreated = true;
+}
 
 // Parallax scroll effect
 window.addEventListener("scroll", function () {
@@ -52,142 +82,85 @@ window.addEventListener("scroll", function () {
     const unitHeight = window.innerHeight;
     const scrollUnits = (value - sectionTop) / unitHeight;
 
-    // Reset if outside section
-    if (scrollUnits < 0 || scrollUnits > 5) {
-      resetAllLayers();
+    // Reset if scrolled above section
+    if (scrollUnits < 0) {
+      bubble.classList.remove("visible");
+      if (imagesCreated) {
+        imgSigiriya.classList.remove("visible");
+        imgLayer1.classList.remove("visible");
+        imgLayer2.classList.remove("visible");
+        imgLayer3.classList.remove("visible");
+        imgLayer4.classList.remove("visible");
+      }
+      bubble.style.transform = "translate(-50%, -50%)";
       return;
     }
 
-    // Show bubble when animation starts
-    if (scrollUnits >= 0) {
-      bubble.classList.add("visible");
-    }
+    // Animation timeline (7 units)
+    if (scrollUnits >= 0 && scrollUnits <= 7) {
+      // Create images if not created
+      if (!imagesCreated) {
+        createBubbleImages();
+      }
 
-    // Unit 1: Sigiriya appears in bubble size
-    if (scrollUnits >= 1 && scrollUnits < 1.5) {
-      sigiriyaLayer.classList.add("appearing");
-    } else if (scrollUnits < 1) {
-      sigiriyaLayer.classList.remove("appearing", "in-bubble");
-      if (sigiriyaLayer.parentElement.classList.contains("bubble-circle")) {
-        originalParent.appendChild(sigiriyaLayer);
+      // Unit 1: Circle appears
+      if (scrollUnits >= 1) {
+        bubble.classList.add("visible");
+      } else {
+        bubble.classList.remove("visible");
+      }
+
+      // Unit 2: Sigiriya appears
+      if (scrollUnits >= 2) {
+        imgSigiriya.classList.add("visible");
+      } else {
+        imgSigiriya.classList.remove("visible");
+      }
+
+      // Unit 3: Layer 1 appears
+      if (scrollUnits >= 3) {
+        imgLayer1.classList.add("visible");
+      } else {
+        imgLayer1.classList.remove("visible");
+      }
+
+      // Unit 4: Layer 2 appears (higher level)
+      if (scrollUnits >= 4) {
+        imgLayer2.classList.add("visible");
+      } else {
+        imgLayer2.classList.remove("visible");
+      }
+
+      // Unit 5: Layer 3 appears (higher level)
+      if (scrollUnits >= 5) {
+        imgLayer3.classList.add("visible");
+      } else {
+        imgLayer3.classList.remove("visible");
+      }
+
+      // Unit 6: Layer 4 appears (front)
+      if (scrollUnits >= 6) {
+        imgLayer4.classList.add("visible");
+      } else {
+        imgLayer4.classList.remove("visible");
+      }
+
+      // Unit 6-7: Bubble moves down
+      if (scrollUnits >= 6) {
+        const moveAmount = (scrollUnits - 6) * 150;
+        bubble.style.transform = `translate(-50%, calc(-50% + ${moveAmount}px))`;
+      } else {
+        bubble.style.transform = "translate(-50%, -50%)";
       }
     }
 
-    // Unit 1.5: Lock sigiriya in bubble
-    if (scrollUnits >= 1.5) {
-      if (!sigiriyaLayer.classList.contains("in-bubble")) {
-        sigiriyaLayer.classList.add("in-bubble");
-        const bubbleCircle = document.querySelector(".bubble-circle");
-        bubbleCircle.appendChild(sigiriyaLayer);
-      }
-    }
-
-    // Unit 2: Layer 1 appears
-    if (scrollUnits >= 2 && scrollUnits < 2.5) {
-      layer1Anim.classList.add("appearing");
-    } else if (scrollUnits < 2) {
-      layer1Anim.classList.remove("appearing", "in-bubble");
-      if (layer1Anim.parentElement.classList.contains("bubble-circle")) {
-        originalParent.appendChild(layer1Anim);
-      }
-    }
-
-    if (scrollUnits >= 2.5) {
-      if (!layer1Anim.classList.contains("in-bubble")) {
-        layer1Anim.classList.add("in-bubble");
-        const bubbleCircle = document.querySelector(".bubble-circle");
-        bubbleCircle.appendChild(layer1Anim);
-      }
-    }
-
-    // Unit 2.5: Layer 3 appears
-    if (scrollUnits >= 2.5 && scrollUnits < 3) {
-      layer3Anim.classList.add("appearing");
-    } else if (scrollUnits < 2.5) {
-      layer3Anim.classList.remove("appearing", "in-bubble");
-      if (layer3Anim.parentElement.classList.contains("bubble-circle")) {
-        originalParent.appendChild(layer3Anim);
-      }
-    }
-
-    if (scrollUnits >= 3) {
-      if (!layer3Anim.classList.contains("in-bubble")) {
-        layer3Anim.classList.add("in-bubble");
-        const bubbleCircle = document.querySelector(".bubble-circle");
-        bubbleCircle.appendChild(layer3Anim);
-      }
-    }
-
-    // Unit 3: Layer 2 appears
-    if (scrollUnits >= 3 && scrollUnits < 3.5) {
-      layer2Anim.classList.add("appearing");
-    } else if (scrollUnits < 3) {
-      layer2Anim.classList.remove("appearing", "in-bubble");
-      if (layer2Anim.parentElement.classList.contains("bubble-circle")) {
-        originalParent.appendChild(layer2Anim);
-      }
-    }
-
-    if (scrollUnits >= 3.5) {
-      if (!layer2Anim.classList.contains("in-bubble")) {
-        layer2Anim.classList.add("in-bubble");
-        const bubbleCircle = document.querySelector(".bubble-circle");
-        bubbleCircle.appendChild(layer2Anim);
-      }
-    }
-
-    // Unit 3.5: Layer 4 appears
-    if (scrollUnits >= 3.5 && scrollUnits < 4) {
-      layer4Anim.classList.add("appearing");
-    } else if (scrollUnits < 3.5) {
-      layer4Anim.classList.remove("appearing", "in-bubble");
-      if (layer4Anim.parentElement.classList.contains("bubble-circle")) {
-        originalParent.appendChild(layer4Anim);
-      }
-    }
-
-    if (scrollUnits >= 4) {
-      if (!layer4Anim.classList.contains("in-bubble")) {
-        layer4Anim.classList.add("in-bubble");
-        const bubbleCircle = document.querySelector(".bubble-circle");
-        bubbleCircle.appendChild(layer4Anim);
-      }
-
-      // Unit 4-5: Bubble moves down
-      const bubbleOffset = (scrollUnits - 4) * 100;
-      bubble.style.transform = `translate(-50%, calc(-50% + ${bubbleOffset}px))`;
-    } else {
-      bubble.style.transform = "translate(-50%, -50%)";
+    // Past section - keep everything visible and moved
+    if (scrollUnits > 7) {
+      const moveAmount = 150; // Final position
+      bubble.style.transform = `translate(-50%, calc(-50% + ${moveAmount}px))`;
     }
   }
 });
-
-// Function to reset all layers
-function resetAllLayers() {
-  if (bubble) {
-    bubble.classList.remove("visible");
-    bubble.style.transform = "translate(-50%, -50%)";
-  }
-
-  const layers = [
-    sigiriyaLayer,
-    layer1Anim,
-    layer2Anim,
-    layer3Anim,
-    layer4Anim,
-  ];
-  layers.forEach((layer) => {
-    if (layer) {
-      layer.classList.remove("appearing", "in-bubble");
-      if (
-        layer.parentElement &&
-        layer.parentElement.classList.contains("bubble-circle")
-      ) {
-        originalParent.appendChild(layer);
-      }
-    }
-  });
-}
 
 // Show/hide scroll to top button
 const topButton = document.getElementById("top");
@@ -224,4 +197,18 @@ window.addEventListener("scroll", function () {
       link.classList.add("active");
     }
   });
+});
+
+// Flying Butterfly
+const butterfly = document.getElementById("butterfly");
+
+window.addEventListener("scroll", function () {
+  let value = window.scrollY;
+
+  // Show butterfly when user starts scrolling
+  if (value > 100) {
+    butterfly.classList.add("visible");
+  } else {
+    butterfly.classList.remove("visible");
+  }
 });
