@@ -75,6 +75,46 @@ window.addEventListener("scroll", function () {
     }
   }
 
+  // Trapezium Gallery Parallax Effect
+  const trapeziumGallery = document.querySelector(".trapezium-gallery");
+  if (trapeziumGallery) {
+    const galleryTop = trapeziumGallery.offsetTop;
+    const galleryHeight = trapeziumGallery.offsetHeight;
+    const galleryBottom = galleryTop + galleryHeight;
+
+    // Only apply parallax when gallery is in viewport
+    if (value >= galleryTop - window.innerHeight && value <= galleryBottom) {
+      const trapFrames = document.querySelectorAll(".trap-frame");
+
+      // Parallax config: [speed, direction (1 = up, -1 = down)]
+      const parallaxConfig = [
+        { speed: 0.3, direction: 1 }, // Frame 1: move up
+        { speed: 0.4, direction: -1 }, // Frame 2: move down
+        { speed: 0.5, direction: 1 }, // Frame 3: move up
+        { speed: 0.6, direction: -1 }, // Frame 4: move down
+        { speed: 0.4, direction: 1 }, // Frame 5: move up
+        { speed: 0.5, direction: -1 }, // Frame 6: move down
+        { speed: 0.3, direction: 1 }, // Frame 7: move up
+        { speed: 0.4, direction: -1 }, // Frame 8: move down
+      ];
+
+      trapFrames.forEach((frame, index) => {
+        const config = parallaxConfig[index];
+        const scrollRelativeToGallery = value - galleryTop;
+        const offset =
+          scrollRelativeToGallery * config.speed * config.direction;
+
+        frame.style.transform = `translateY(${offset}px)`;
+      });
+    } else {
+      // Reset parallax when out of viewport
+      const trapFrames = document.querySelectorAll(".trap-frame");
+      trapFrames.forEach((frame) => {
+        frame.style.transform = "translateY(0)";
+      });
+    }
+  }
+
   // Sigiriya bubble animation
   const sigiriyaSection = document.getElementById("sigiriya");
   if (sigiriyaSection) {
