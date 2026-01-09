@@ -75,12 +75,23 @@ window.addEventListener("scroll", function () {
     }
   }
 
-  // Trapezium Gallery Parallax Effect
+  // Trapezium Gallery Parallax Effect and Merge Animation
   const trapeziumGallery = document.querySelector(".trapezium-gallery");
   if (trapeziumGallery) {
     const galleryTop = trapeziumGallery.offsetTop;
     const galleryHeight = trapeziumGallery.offsetHeight;
     const galleryBottom = galleryTop + galleryHeight;
+
+    // Merge animation trigger point (when scrolling past gallery)
+    // Increased to give users more time to view the gallery
+    const mergePoint = galleryBottom + window.innerHeight * 0.8;
+
+    // Add merge effect when scrolling past the gallery
+    if (value >= mergePoint) {
+      trapeziumGallery.classList.add("merging");
+    } else {
+      trapeziumGallery.classList.remove("merging");
+    }
 
     // Only apply parallax when gallery is in viewport
     if (value >= galleryTop - window.innerHeight && value <= galleryBottom) {
@@ -117,6 +128,9 @@ window.addEventListener("scroll", function () {
 
   // Sigiriya bubble animation
   const sigiriyaSection = document.getElementById("sigiriya");
+  const sigiriyaTitle = document.querySelector(".sigiriya-title");
+  const sigiriyaDescription = document.querySelector(".sigiriya-description");
+
   if (sigiriyaSection) {
     const sectionTop = sigiriyaSection.offsetTop;
     const unitHeight = window.innerHeight;
@@ -125,6 +139,8 @@ window.addEventListener("scroll", function () {
     // Reset if scrolled above section
     if (scrollUnits < 0) {
       bubble.classList.remove("visible");
+      if (sigiriyaTitle) sigiriyaTitle.classList.remove("visible");
+      if (sigiriyaDescription) sigiriyaDescription.classList.remove("visible");
       if (imagesCreated) {
         imgSigiriya.classList.remove("visible");
         imgLayer1.classList.remove("visible");
@@ -132,72 +148,86 @@ window.addEventListener("scroll", function () {
         imgLayer3.classList.remove("visible");
         imgLayer4.classList.remove("visible");
       }
-      bubble.style.transform = "translate(-50%, -50%)";
       return;
     }
 
-    // Animation timeline (7 units)
-    if (scrollUnits >= 0 && scrollUnits <= 7) {
+    // Animation timeline (3.5 units for faster scrolling)
+    if (scrollUnits >= 0 && scrollUnits <= 3.5) {
       // Create images if not created
       if (!imagesCreated) {
         createBubbleImages();
       }
 
-      // Unit 1: Circle appears
-      if (scrollUnits >= 1) {
+      // Unit 0.2: Title appears
+      if (scrollUnits >= 0.2) {
+        if (sigiriyaTitle) sigiriyaTitle.classList.add("visible");
+      } else {
+        if (sigiriyaTitle) sigiriyaTitle.classList.remove("visible");
+      }
+
+      // Unit 0.5: Circle appears
+      if (scrollUnits >= 0.5) {
         bubble.classList.add("visible");
       } else {
         bubble.classList.remove("visible");
       }
 
-      // Unit 2: Sigiriya appears
-      if (scrollUnits >= 2) {
+      // Unit 0.7: Description appears
+      if (scrollUnits >= 0.7) {
+        if (sigiriyaDescription) sigiriyaDescription.classList.add("visible");
+      } else {
+        if (sigiriyaDescription)
+          sigiriyaDescription.classList.remove("visible");
+      }
+
+      // Unit 1: Sigiriya appears
+      if (scrollUnits >= 1) {
         imgSigiriya.classList.add("visible");
       } else {
         imgSigiriya.classList.remove("visible");
       }
 
-      // Unit 3: Layer 1 appears
-      if (scrollUnits >= 3) {
+      // Unit 1.5: Layer 1 appears
+      if (scrollUnits >= 1.5) {
         imgLayer1.classList.add("visible");
       } else {
         imgLayer1.classList.remove("visible");
       }
 
-      // Unit 4: Layer 2 appears (higher level)
-      if (scrollUnits >= 4) {
+      // Unit 2: Layer 2 appears (higher level)
+      if (scrollUnits >= 2) {
         imgLayer2.classList.add("visible");
       } else {
         imgLayer2.classList.remove("visible");
       }
 
-      // Unit 5: Layer 3 appears (higher level)
-      if (scrollUnits >= 5) {
+      // Unit 2.5: Layer 3 appears (higher level)
+      if (scrollUnits >= 2.5) {
         imgLayer3.classList.add("visible");
       } else {
         imgLayer3.classList.remove("visible");
       }
 
-      // Unit 6: Layer 4 appears (front)
-      if (scrollUnits >= 6) {
+      // Unit 3: Layer 4 appears (front)
+      if (scrollUnits >= 3) {
         imgLayer4.classList.add("visible");
       } else {
         imgLayer4.classList.remove("visible");
       }
-
-      // Unit 6-7: Bubble moves down
-      if (scrollUnits >= 6) {
-        const moveAmount = (scrollUnits - 6) * 150;
-        bubble.style.transform = `translate(-50%, calc(-50% + ${moveAmount}px))`;
-      } else {
-        bubble.style.transform = "translate(-50%, -50%)";
-      }
     }
 
-    // Past section - keep everything visible and moved
-    if (scrollUnits > 7) {
-      const moveAmount = 150; // Final position
-      bubble.style.transform = `translate(-50%, calc(-50% + ${moveAmount}px))`;
+    // Past section - keep everything visible
+    if (scrollUnits > 3.5) {
+      if (sigiriyaTitle) sigiriyaTitle.classList.add("visible");
+      bubble.classList.add("visible");
+      if (sigiriyaDescription) sigiriyaDescription.classList.add("visible");
+      if (imagesCreated) {
+        imgSigiriya.classList.add("visible");
+        imgLayer1.classList.add("visible");
+        imgLayer2.classList.add("visible");
+        imgLayer3.classList.add("visible");
+        imgLayer4.classList.add("visible");
+      }
     }
   }
 });
