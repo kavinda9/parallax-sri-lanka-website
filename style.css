@@ -320,8 +320,6 @@ body {
   font-weight: 900;
   letter-spacing: 8px;
   text-transform: uppercase;
-  text-shadow: 0 0 30px rgba(46, 204, 113, 0.5),
-    0 0 60px rgba(46, 204, 113, 0.3), 3px 3px 10px rgba(0, 0, 0, 0.8);
   z-index: 150;
   opacity: 0;
   transition: opacity 0.8s ease;
@@ -346,8 +344,7 @@ body {
 
 .sigiriya-title.visible {
   opacity: 1;
-  animation: moveLeftToRight 3s ease-in-out,
-    titleGlowGreen 3s ease-in-out infinite 3s;
+  animation: moveLeftToRight 3s ease-in-out;
 }
 
 @keyframes moveLeftToRight {
@@ -356,20 +353,6 @@ body {
   }
   100% {
     transform: translate(-50%, -280px);
-  }
-}
-
-@keyframes titleGlowGreen {
-  0%,
-  100% {
-    text-shadow: 0 0 30px rgba(46, 204, 113, 0.5),
-      0 0 60px rgba(46, 204, 113, 0.3), 3px 3px 10px rgba(0, 0, 0, 0.8);
-    background-position: 0% center;
-  }
-  50% {
-    text-shadow: 0 0 40px rgba(46, 204, 113, 0.8),
-      0 0 80px rgba(46, 204, 113, 0.5), 3px 3px 15px rgba(0, 0, 0, 0.9);
-    background-position: 100% center;
   }
 }
 
