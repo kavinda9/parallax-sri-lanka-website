@@ -282,3 +282,91 @@ window.addEventListener("scroll", function () {
     butterfly.classList.remove("visible");
   }
 });
+
+/* ===== MOUNTAIN PARALLAX JAVASCRIPT ===== */
+/* Add this code to your script.js file */
+
+// Get mountain section elements
+const mountainSection = document.querySelector(".mountain-section");
+const mountainText = document.getElementById("mountain-text");
+const bird1 = document.getElementById("bird1");
+const bird2 = document.getElementById("bird2");
+const exploreBtn = document.getElementById("explore-btn");
+const rocks = document.getElementById("rocks");
+const forest = document.getElementById("forest");
+const water = document.getElementById("water");
+
+// Mountain section scroll animations
+window.addEventListener("scroll", function () {
+  let scrollValue = window.scrollY;
+
+  // Check if mountain section exists
+  if (mountainSection) {
+    const mountainTop = mountainSection.offsetTop;
+    const triggerPoint = mountainTop - window.innerHeight * 0.7; // Trigger when 70% from top
+
+    // Diagonal slide-in effect when scrolling to mountain section
+    if (scrollValue >= triggerPoint) {
+      mountainSection.classList.add("active");
+    } else {
+      mountainSection.classList.remove("active");
+    }
+
+    // Parallax effects ONLY when section is active and in view
+    if (mountainSection.classList.contains("active")) {
+      const relativeScroll = scrollValue - mountainTop;
+
+      // Text moves up slowly
+      if (mountainText) {
+        mountainText.style.top = 50 + relativeScroll * -0.5 + "%";
+      }
+
+      // Bird 1 - flies up and to the right
+      if (bird1) {
+        bird1.style.top = relativeScroll * -1.5 + "px";
+        bird1.style.left = relativeScroll * 2 + "px";
+      }
+
+      // Bird 2 - flies up and to the left
+      if (bird2) {
+        bird2.style.top = relativeScroll * -1.5 + "px";
+        bird2.style.left = relativeScroll * -5 + "px";
+      }
+
+      // Explore button moves down
+      if (exploreBtn) {
+        exploreBtn.style.marginTop = relativeScroll * 1.5 + "px";
+      }
+
+      // Rocks move up slightly
+      if (rocks) {
+        rocks.style.top = relativeScroll * -0.12 + "px";
+      }
+
+      // Forest moves down (creates depth)
+      if (forest) {
+        forest.style.top = relativeScroll * 0.25 + "px";
+      }
+
+      // Water stays relatively still (background layer)
+      if (water) {
+        water.style.top = relativeScroll * 0.1 + "px";
+      }
+    }
+  }
+});
+
+// Optional: Smooth scroll for explore button
+if (exploreBtn) {
+  exploreBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    // Scroll to next section or specific location
+    const nextSection = mountainSection.nextElementSibling;
+    if (nextSection) {
+      nextSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  });
+}
