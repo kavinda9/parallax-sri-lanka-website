@@ -308,8 +308,20 @@ window.addEventListener("scroll", function () {
     // Diagonal slide-in effect when scrolling to mountain section
     if (scrollValue >= triggerPoint) {
       mountainSection.classList.add("active");
+      // Hide Sigiriya section when mountain section is active
+      const sigiriyaSection = document.getElementById("sigiriya");
+      if (sigiriyaSection) {
+        sigiriyaSection.style.opacity = "0";
+        sigiriyaSection.style.pointerEvents = "none";
+      }
     } else {
       mountainSection.classList.remove("active");
+      // Show Sigiriya section when mountain section is not active
+      const sigiriyaSection = document.getElementById("sigiriya");
+      if (sigiriyaSection) {
+        sigiriyaSection.style.opacity = "1";
+        sigiriyaSection.style.pointerEvents = "auto";
+      }
     }
 
     // Parallax effects ONLY when section is active and in view
@@ -338,19 +350,19 @@ window.addEventListener("scroll", function () {
         exploreBtn.style.marginTop = relativeScroll * 1.5 + "px";
       }
 
-      // Rocks move up slightly
-      if (rocks) {
-        rocks.style.top = relativeScroll * -0.12 + "px";
-      }
-
-      // Forest moves down (creates depth)
+      // Forest moves down slowly (creates depth - background layer)
       if (forest) {
-        forest.style.top = relativeScroll * 0.25 + "px";
+        forest.style.top = relativeScroll * 0.4 + "px";
       }
 
-      // Water stays relatively still (background layer)
+      // Rocks move up slightly (foreground element)
+      if (rocks) {
+        rocks.style.top = relativeScroll * -0.14 + "px";
+      }
+
+      // Water stays relatively still (very slow parallax - furthest background)
       if (water) {
-        water.style.top = relativeScroll * 0.1 + "px";
+        water.style.top = relativeScroll * 0.25 + "px";
       }
     }
   }

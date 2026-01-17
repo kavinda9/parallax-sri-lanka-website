@@ -297,6 +297,7 @@ body {
   overflow: hidden;
   background: #001f3f;
   padding-top: 100px;
+  transition: opacity 0.5s ease-out;
 }
 
 /* Sigiriya Title */
