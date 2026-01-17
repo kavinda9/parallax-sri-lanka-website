@@ -1,0 +1,196 @@
+/* ===== ANIMATION2.CSS - MOUNTAIN PARALLAX SECTION ===== */
+
+/* Mountain Section Container */
+.mountain-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #0a4d68;
+  /* Dark teal background */
+
+  /* Initial state - positioned off-screen diagonally (top-right) */
+  transform: translate(100%, -100%) rotate(15deg);
+  opacity: 0;
+  transition: all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Active state - slides down diagonally into view */
+.mountain-section.active {
+  transform: translate(0, 0) rotate(0deg);
+  opacity: 1;
+}
+
+/* Gradient overlay at bottom */
+.mountain-section::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, #094b65, transparent);
+  z-index: 10;
+}
+
+/* All images in mountain section */
+.mountain-section img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* Mountain Text Styling */
+#mountain-text {
+  position: absolute;
+  color: #094b65;
+  font-size: 10vw;
+  text-align: center;
+  line-height: 0.55em;
+  font-family: "Rancho", cursive;
+  transform: translateY(-50%);
+  z-index: 9;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+#mountain-text span {
+  font-size: 0.2em;
+  letter-spacing: 2px;
+  font-weight: 400;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Explore Button */
+#explore-btn {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 30px;
+  background: #fff;
+  color: #094b65;
+  font-size: 1.2em;
+  font-weight: 500;
+  letter-spacing: 2px;
+  border-radius: 40px;
+  transform: translateY(100px);
+  z-index: 9;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+#explore-btn:hover {
+  background: #094b65;
+  color: #fff;
+  transform: translateY(100px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Layer-specific z-index for proper stacking */
+#water {
+  z-index: 8;
+}
+
+#rocks {
+  z-index: 7;
+}
+
+#forest {
+  z-index: 6;
+}
+
+#bird1,
+#bird2 {
+  z-index: 11;
+  width: 100px;
+  height: auto;
+}
+
+/* Slide-in animation from diagonal */
+@keyframes slideInDiagonal {
+  0% {
+    transform: translate(100%, -100%) rotate(15deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Optional: Add entrance animation to individual elements */
+.mountain-section.active #mountain-text {
+  animation: fadeInUp 1s ease 0.3s backwards;
+}
+
+.mountain-section.active #explore-btn {
+  animation: fadeInUp 1s ease 0.5s backwards;
+}
+
+.mountain-section.active #bird1 {
+  animation: flyIn 1.5s ease 0.7s backwards;
+}
+
+.mountain-section.active #bird2 {
+  animation: flyIn 1.8s ease 0.9s backwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flyIn {
+  from {
+    opacity: 0;
+    transform: translate(-100px, -100px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media screen and (max-width: 768px) {
+  #mountain-text {
+    font-size: 12vw;
+  }
+
+  #explore-btn {
+    font-size: 1em;
+    padding: 6px 20px;
+  }
+
+  #bird1,
+  #bird2 {
+    width: 60px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #mountain-text {
+    font-size: 14vw;
+  }
+
+  #explore-btn {
+    font-size: 0.9em;
+    padding: 5px 15px;
+  }
+
+  #bird1,
+  #bird2 {
+    width: 40px;
+  }
+}
