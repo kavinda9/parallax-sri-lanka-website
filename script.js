@@ -308,20 +308,8 @@ window.addEventListener("scroll", function () {
     // Diagonal slide-in effect when scrolling to mountain section
     if (scrollValue >= triggerPoint) {
       mountainSection.classList.add("active");
-      // Hide Sigiriya section when mountain section is active
-      const sigiriyaSection = document.getElementById("sigiriya");
-      if (sigiriyaSection) {
-        sigiriyaSection.style.opacity = "0";
-        sigiriyaSection.style.pointerEvents = "none";
-      }
     } else {
       mountainSection.classList.remove("active");
-      // Show Sigiriya section when mountain section is not active
-      const sigiriyaSection = document.getElementById("sigiriya");
-      if (sigiriyaSection) {
-        sigiriyaSection.style.opacity = "1";
-        sigiriyaSection.style.pointerEvents = "auto";
-      }
     }
 
     // Parallax effects ONLY when section is active and in view
