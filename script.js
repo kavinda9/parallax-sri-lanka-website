@@ -278,6 +278,18 @@ window.addEventListener("scroll", function () {
     const mountainTop = mountainSection.offsetTop;
     const relativeScroll = value - mountainTop;
 
+    // Hide sigiriya section when mountain section is visible
+    const sigiriyaSection = document.getElementById("sigiriya");
+    if (sigiriyaSection) {
+      if (value >= mountainTop - window.innerHeight * 0.5) {
+        sigiriyaSection.style.opacity = "0";
+        sigiriyaSection.style.pointerEvents = "none";
+      } else {
+        sigiriyaSection.style.opacity = "1";
+        sigiriyaSection.style.pointerEvents = "auto";
+      }
+    }
+
     // Only apply parallax when in the mountain section viewport
     if (
       value >= mountainTop - window.innerHeight &&
