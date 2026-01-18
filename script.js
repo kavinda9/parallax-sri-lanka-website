@@ -57,6 +57,47 @@ function createBubbleImages() {
   imagesCreated = true;
 }
 
+// Get mountain/ocean section elements
+const text = document.getElementById("text");
+const cloud = document.getElementById("cloud");
+const bird1 = document.getElementById("bird1");
+const bird2 = document.getElementById("bird2");
+const explore = document.getElementById("explore");
+const rocks = document.getElementById("rocks");
+const forest = document.getElementById("forest");
+const sky = document.getElementById("sky");
+const mountains = document.getElementById("mountains");
+const sun = document.getElementById("sun");
+const splash = document.getElementById("splash");
+const water = document.getElementById("water");
+
+// Get fish elements
+const fish1 = document.getElementById("fish1");
+const fish2 = document.getElementById("fish2");
+const fish3 = document.getElementById("fish3");
+const fish4 = document.getElementById("fish4");
+
+// Get bubbles container
+const bubblesContainer = document.getElementsByClassName("bubbles")[0];
+
+// Padding values for desktop
+var fish2move = 100;
+var fish3move = 900;
+var fish4move = 1200;
+
+if (screen.width < 400) {
+  // Change transformation duration and translatey for mobile view
+  if (bubblesContainer) {
+    bubblesContainer.style.setProperty("--transform-duration", "15s");
+    bubblesContainer.style.setProperty("--transform-y", "-700vh");
+  }
+
+  // Padding values for mobile
+  fish2move = 1680;
+  fish3move = 3000;
+  fish4move = 4300;
+}
+
 // Parallax scroll effect
 window.addEventListener("scroll", function () {
   let value = window.scrollY;
@@ -230,6 +271,87 @@ window.addEventListener("scroll", function () {
       }
     }
   }
+
+  // Mountain/Ocean Section Parallax Effects
+  const mountainSection = document.querySelector(".mountain-ocean-section");
+  if (mountainSection) {
+    const mountainTop = mountainSection.offsetTop;
+    const relativeScroll = value - mountainTop;
+
+    // Only apply parallax when in the mountain section viewport
+    if (
+      value >= mountainTop - window.innerHeight &&
+      value <= mountainTop + window.innerHeight
+    ) {
+      if (text) {
+        text.style.top = 50 + relativeScroll * -0.2 + "%";
+      }
+
+      if (cloud) {
+        cloud.style.left = relativeScroll * 2 + "px";
+      }
+
+      if (bird1) {
+        bird1.style.top = relativeScroll * 0.1 + "px";
+        bird1.style.left = relativeScroll * 1 + "px";
+      }
+
+      if (bird2) {
+        bird2.style.top = relativeScroll * -0.1 + "px";
+        bird2.style.left = relativeScroll * -2 + "px";
+      }
+
+      if (explore) {
+        explore.style.marginTop = relativeScroll * 1.5 + "px";
+      }
+
+      if (rocks) {
+        rocks.style.top = relativeScroll * -0.14 + "px";
+      }
+
+      if (forest) {
+        forest.style.top = relativeScroll * 0.4 + "px";
+      }
+
+      if (sky) {
+        sky.style.top = relativeScroll * 0.25 + "px";
+      }
+
+      if (mountains) {
+        mountains.style.top = relativeScroll * 0.25 + "px";
+      }
+
+      if (sun) {
+        sun.style.top = relativeScroll * 1 + "px";
+      }
+
+      // To prevent splash to move above sea water
+      if (splash && relativeScroll < 380) {
+        splash.style.top = 20 + relativeScroll * -0.3 + "px";
+      }
+    }
+  }
+
+  // Ocean content - Fish parallax movement
+  const oceanContent = document.querySelector(".ocean-content");
+  if (oceanContent) {
+    const oceanTop = oceanContent.offsetTop;
+    const relativeOceanScroll = value - oceanTop;
+
+    // Move fishes horizontally
+    if (fish1) {
+      fish1.style.right = (relativeOceanScroll - 100) * 1 + "px";
+    }
+    if (fish2) {
+      fish2.style.left = (relativeOceanScroll - fish2move) * 1 + "px";
+    }
+    if (fish3) {
+      fish3.style.right = (relativeOceanScroll - fish3move) * 1 + "px";
+    }
+    if (fish4) {
+      fish4.style.left = (relativeOceanScroll - fish4move) * 1 + "px";
+    }
+  }
 });
 
 // Show/hide scroll to top button
@@ -248,7 +370,9 @@ if (topButton) {
 
 // Active navigation on scroll
 window.addEventListener("scroll", function () {
-  const sections = document.querySelectorAll("section, .content");
+  const sections = document.querySelectorAll(
+    "section, .content, .ocean-content",
+  );
   const navLinks = document.querySelectorAll("#header ul li a");
 
   let current = "";
@@ -282,105 +406,3 @@ window.addEventListener("scroll", function () {
     butterfly.classList.remove("visible");
   }
 });
-
-/* ===== MOUNTAIN PARALLAX JAVASCRIPT ===== */
-/* Add this code to your script.js file */
-
-// Get mountain section elements
-const mountainSection = document.querySelector(".mountain-section");
-const mountainText = document.getElementById("mountain-text");
-const bird1 = document.getElementById("bird1");
-const bird2 = document.getElementById("bird2");
-const exploreBtn = document.getElementById("explore-btn");
-const rocks = document.getElementById("rocks");
-const forest = document.getElementById("forest");
-const water = document.getElementById("water");
-
-// Mountain section scroll animations
-window.addEventListener("scroll", function () {
-  let scrollValue = window.scrollY;
-
-  // Check if mountain section exists
-  if (mountainSection) {
-    const mountainTop = mountainSection.offsetTop;
-    const triggerPoint = mountainTop - window.innerHeight * 0.7; // Trigger when 70% from top
-
-    // Diagonal slide-in effect when scrolling to mountain section
-    if (scrollValue >= triggerPoint) {
-      mountainSection.classList.add("active");
-
-      // Hide Sigiriya section when mountain section appears
-      const sigiriyaSection = document.getElementById("sigiriya");
-      if (sigiriyaSection) {
-        sigiriyaSection.style.opacity = "0";
-        sigiriyaSection.style.visibility = "hidden";
-      }
-    } else {
-      mountainSection.classList.remove("active");
-
-      // Show Sigiriya section when mountain section is not active
-      const sigiriyaSection = document.getElementById("sigiriya");
-      if (sigiriyaSection) {
-        sigiriyaSection.style.opacity = "1";
-        sigiriyaSection.style.visibility = "visible";
-      }
-    }
-
-    // Parallax effects ONLY when section is active and in view
-    if (mountainSection.classList.contains("active")) {
-      const relativeScroll = scrollValue - mountainTop;
-
-      // Text moves up slowly
-      if (mountainText) {
-        mountainText.style.top = 50 + relativeScroll * -0.5 + "%";
-      }
-
-      // Bird 1 - flies up and to the right
-      if (bird1) {
-        bird1.style.top = relativeScroll * -1.5 + "px";
-        bird1.style.left = relativeScroll * 2 + "px";
-      }
-
-      // Bird 2 - flies up and to the left
-      if (bird2) {
-        bird2.style.top = relativeScroll * -1.5 + "px";
-        bird2.style.left = relativeScroll * -5 + "px";
-      }
-
-      // Explore button moves down
-      if (exploreBtn) {
-        exploreBtn.style.marginTop = relativeScroll * 1.5 + "px";
-      }
-
-      // Forest moves down slowly (creates depth - background layer)
-      if (forest) {
-        forest.style.top = relativeScroll * 0.4 + "px";
-      }
-
-      // Rocks move up slightly (foreground element)
-      if (rocks) {
-        rocks.style.top = relativeScroll * -0.14 + "px";
-      }
-
-      // Water stays relatively still (very slow parallax - furthest background)
-      if (water) {
-        water.style.top = relativeScroll * 0.25 + "px";
-      }
-    }
-  }
-});
-
-// Optional: Smooth scroll for explore button
-if (exploreBtn) {
-  exploreBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    // Scroll to next section or specific location
-    const nextSection = mountainSection.nextElementSibling;
-    if (nextSection) {
-      nextSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  });
-}
