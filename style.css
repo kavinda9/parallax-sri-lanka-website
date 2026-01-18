@@ -484,6 +484,233 @@ body {
   /* Floor level - frontmost */
 }
 
+/* ===== MOUNTAIN & OCEAN SECTION ===== */
+.mountain-ocean-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* To blend section color with water color */
+.mountain-ocean-section::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, #085a7a, transparent);
+  z-index: 10;
+}
+
+/* Make all images absolute and cover whole screen */
+.mountain-ocean-section img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* Properties for the text on mountain section */
+.mountain-ocean-section #text span {
+  font-size: 0.2em;
+  letter-spacing: 2px;
+  font-weight: 400;
+  color: white;
+}
+
+.mountain-ocean-section #text {
+  position: absolute;
+  color: #004660;
+  font-size: 10vw;
+  text-align: center;
+  line-height: 0.55em;
+  font-family: "Rancho", cursive;
+  transform: translateY(-50%);
+  top: 50%;
+  z-index: 9;
+}
+
+/* The explore Button */
+#explore {
+  text-decoration: none;
+  padding: 8px 25px;
+  background: white;
+  color: #003549;
+  font-size: 1.3em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border-radius: 40px;
+  transform: translateY(100px);
+  z-index: 9;
+  transition: all 0.3s ease;
+}
+
+#explore:hover {
+  background: #003549;
+  color: white;
+  transform: translateY(100px) scale(1.1);
+}
+
+/* ===== OCEAN CONTENT SECTION (BELOW WATER) ===== */
+.ocean-content {
+  position: relative;
+  padding: 10%;
+  background: #085a7a;
+  padding-bottom: 15%;
+  z-index: 50;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Glass Effect */
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  padding: 1em;
+  margin-bottom: 2%;
+}
+
+/* Properties for ocean content text */
+.ocean-content h2 {
+  font-size: 3.5em;
+  color: white;
+}
+
+.ocean-content #ocean-subtitle {
+  font-size: 1.5em;
+  font-family: "Rancho", cursive;
+  letter-spacing: 2px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.ocean-content h3 {
+  font-size: 1.8em;
+  margin: 2%;
+  color: white;
+}
+
+.ocean-content h4 {
+  font-size: 1.2em;
+  text-decoration: underline;
+  font-weight: 600;
+  color: white;
+}
+
+.ocean-content p {
+  margin: 10px 20px 40px;
+  color: white;
+}
+
+.ocean-content ul {
+  margin: 0 5%;
+}
+
+.ocean-content ul li {
+  margin: 2%;
+}
+
+/* Make all fishes image as absolute.. To overlap with background */
+.fishes {
+  position: absolute;
+  opacity: 0.8;
+}
+
+/* Properties for each fish and sea bed*/
+#fish1 {
+  top: 0%;
+}
+
+#fish2 {
+  top: 32%;
+}
+
+#fish3 {
+  top: 60%;
+}
+
+#fish4 {
+  top: 87%;
+}
+
+#seabed {
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  opacity: 1;
+}
+
+.undersea {
+  position: absolute;
+  opacity: 1;
+}
+
+#sea1 {
+  top: 10%;
+  left: 1%;
+  width: 20%;
+}
+
+#sea2 {
+  top: 16%;
+  right: 1%;
+  width: 10%;
+}
+
+#sea3 {
+  top: 40%;
+  left: 0;
+  width: 12%;
+}
+
+#sea4 {
+  top: 50%;
+  right: 0;
+  width: 12%;
+}
+
+#sea5 {
+  top: 70%;
+  left: 1%;
+  width: 10%;
+}
+
+#sea6 {
+  top: 75%;
+  right: 2%;
+  width: 6%;
+}
+
+#sea7 {
+  top: 90%;
+  right: 70%;
+  width: 10%;
+}
+
+#sea8 {
+  bottom: 0;
+  left: 55%;
+  width: 10%;
+  z-index: 100;
+}
+
 /* ===== SCROLL TO TOP BUTTON ===== */
 #top {
   position: fixed;
@@ -621,6 +848,62 @@ body {
     height: 337px;
   }
 
+  .mountain-ocean-section #text {
+    font-size: 12vw;
+  }
+
+  #explore {
+    font-size: 1em;
+    padding: 6px 20px;
+  }
+
+  .ocean-content h2 {
+    font-size: 2.5em;
+  }
+
+  #sea1 {
+    top: 7%;
+    width: 40%;
+  }
+
+  #sea2 {
+    top: 25%;
+    width: 20%;
+  }
+
+  #sea3 {
+    top: 42%;
+    width: 25%;
+  }
+
+  #sea4 {
+    top: 52%;
+    width: 25%;
+  }
+
+  #sea5 {
+    top: 72%;
+    left: 1%;
+    width: 20%;
+  }
+
+  #sea6 {
+    top: 80%;
+    right: 2%;
+    width: 15%;
+  }
+
+  #sea7 {
+    top: 96%;
+    left: 1%;
+    width: 20%;
+  }
+
+  #sea8 {
+    left: 50%;
+    width: 15%;
+  }
+
   #top {
     width: 45px;
     height: 45px;
@@ -672,5 +955,45 @@ body {
   .bubble-circle {
     width: 400px;
     height: 225px;
+  }
+
+  .mountain-ocean-section #text {
+    font-size: 14vw;
+  }
+
+  #explore {
+    font-size: 0.9em;
+    padding: 5px 15px;
+  }
+
+  .ocean-content h2 {
+    font-size: 2rem;
+  }
+
+  .ocean-content ul li {
+    margin: 20px;
+  }
+
+  .ocean-content ul {
+    margin: 0px 0px;
+  }
+
+  .ocean-content h3 {
+    font-size: 1.5em;
+    margin: 20px 0px;
+  }
+
+  .ocean-content p {
+    margin: 1% 4%;
+  }
+
+  #seabed {
+    object-fit: contain;
+    left: 0;
+    width: 750px;
+  }
+
+  .glass {
+    backdrop-filter: blur(1px);
   }
 }
