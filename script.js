@@ -304,13 +304,15 @@ window.addEventListener("scroll", function () {
       }
 
       if (bird1) {
-        bird1.style.top = relativeScroll * 0.1 + "px";
-        bird1.style.left = relativeScroll * 1 + "px";
+        bird1.style.transform = `translate(${relativeScroll * 1}px, ${
+          relativeScroll * 0.1
+        }px)`;
       }
 
       if (bird2) {
-        bird2.style.top = relativeScroll * -0.1 + "px";
-        bird2.style.left = relativeScroll * -2 + "px";
+        bird2.style.transform = `translate(${relativeScroll * -2}px, ${
+          relativeScroll * -0.1
+        }px)`;
       }
 
       if (explore) {

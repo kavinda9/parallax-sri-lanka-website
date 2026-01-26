@@ -92,6 +92,22 @@
 }
 
 /* Layer-specific z-index for proper stacking */
+#sky {
+  z-index: 1;
+}
+
+#sun {
+  z-index: 2;
+}
+
+#mountains {
+  z-index: 3;
+}
+
+#cloud {
+  z-index: 5;
+}
+
 #water {
   z-index: 8;
 }
@@ -104,11 +120,27 @@
   z-index: 6;
 }
 
+#splash {
+  z-index: 9;
+}
+
 #bird1,
 #bird2 {
   z-index: 11;
-  width: 100px;
+  width: clamp(80px, 10vw, 180px);
   height: auto;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
+}
+
+/* Reasonable starting positions so they're visible before parallax moves */
+#bird1 {
+  top: 35%;
+  left: 15%;
+}
+
+#bird2 {
+  top: 20%;
+  right: 12%;
 }
 
 /* Slide-in animation from diagonal */
