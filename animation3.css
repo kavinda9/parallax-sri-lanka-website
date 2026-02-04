@@ -1,0 +1,172 @@
+/* Moon Light Parallax Section Styles */
+
+.moon-parallax-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(#0f0620, #1a0033);
+}
+
+/* Fade effect at bottom of moon section */
+.moon-parallax-section::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, #0f0620, transparent);
+  z-index: 15;
+}
+
+.moon-parallax-section img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.moon-parallax-section img#moon-img {
+  mix-blend-mode: screen;
+}
+
+.moon-parallax-section img#mountains_front {
+  z-index: 10;
+}
+
+#moon-text {
+  position: absolute;
+  color: #fff;
+  white-space: nowrap;
+  font-size: 7vw;
+  z-index: 9;
+  right: -35px;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+#moon-text span {
+  display: block;
+  font-size: 0.6em;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+#moon-btn {
+  text-decoration: none;
+  display: inline-block;
+  padding: 12px 40px;
+  border-radius: 40px;
+  background: #fff;
+  color: #0f0620;
+  font-size: 1.5em;
+  z-index: 9;
+  transform: translateY(100px);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+#moon-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(95px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Moon Content Section */
+.moon-content {
+  position: relative;
+  padding: 100px;
+  background: #0f0620;
+  color: #fff;
+}
+
+.moon-content h2 {
+  font-size: 3.5em;
+  margin-bottom: 10px;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.moon-content p {
+  font-size: 1.2em;
+  color: #d0d0d0;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .moon-parallax-section {
+    padding: 50px;
+  }
+
+  #moon-text {
+    font-size: 4vw;
+    right: -20px;
+  }
+
+  #moon-text span {
+    font-size: 0.8em;
+  }
+
+  #moon-btn {
+    padding: 10px 30px;
+    font-size: 1.2em;
+  }
+
+  .moon-content {
+    padding: 50px;
+  }
+
+  .moon-content h2 {
+    font-size: 2.5em;
+  }
+
+  .moon-content p {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .moon-parallax-section {
+    padding: 30px;
+  }
+
+  #moon-text {
+    font-size: 3vw;
+    right: -10px;
+  }
+
+  #moon-text span {
+    font-size: 0.7em;
+  }
+
+  #moon-btn {
+    padding: 8px 25px;
+    font-size: 1em;
+  }
+
+  .moon-content {
+    padding: 30px;
+  }
+
+  .moon-content h2 {
+    font-size: 2em;
+  }
+
+  .moon-content p {
+    font-size: 0.95em;
+  }
+}
