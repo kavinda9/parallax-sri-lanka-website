@@ -77,6 +77,14 @@ const fish2 = document.getElementById("fish2");
 const fish3 = document.getElementById("fish3");
 const fish4 = document.getElementById("fish4");
 
+// Get moon parallax elements
+const stars = document.getElementById("stars");
+const moon = document.getElementById("moon-img");
+const mountains_behind = document.getElementById("mountains_behind");
+const mountains_front = document.getElementById("mountains_front");
+const moonText = document.getElementById("moon-text");
+const moonBtn = document.getElementById("moon-btn");
+
 // Get bubbles container
 const bubblesContainer = document.getElementsByClassName("bubbles")[0];
 
@@ -366,6 +374,44 @@ window.addEventListener("scroll", function () {
       fish4.style.left = (relativeOceanScroll - fish4move) * 1 + "px";
     }
   }
+
+  // Moon Parallax Section Effect
+  const moonSection = document.querySelector(".moon-parallax-section");
+  if (moonSection) {
+    const moonTop = moonSection.offsetTop;
+    const relativeScrollMoon = value - moonTop;
+
+    // Only apply parallax when in the moon section viewport
+    if (
+      value >= moonTop - window.innerHeight &&
+      value <= moonTop + window.innerHeight
+    ) {
+      if (stars) {
+        stars.style.left = relativeScrollMoon * 1.25 + "px";
+      }
+
+      if (moon) {
+        moon.style.top = relativeScrollMoon * 1.5 + "px";
+      }
+
+      if (mountains_behind) {
+        mountains_behind.style.top = relativeScrollMoon * 0.5 + "px";
+      }
+
+      if (mountains_front) {
+        mountains_front.style.top = relativeScrollMoon * 0 + "px";
+      }
+
+      if (moonText) {
+        moonText.style.marginRight = relativeScrollMoon * 4 + "px";
+        moonText.style.marginTop = relativeScrollMoon * 1.5 + "px";
+      }
+
+      if (moonBtn) {
+        moonBtn.style.marginTop = relativeScrollMoon * 1.5 + "px";
+      }
+    }
+  }
 });
 
 // Show/hide scroll to top button
@@ -385,7 +431,7 @@ if (topButton) {
 // Active navigation on scroll
 window.addEventListener("scroll", function () {
   const sections = document.querySelectorAll(
-    "section, .content, .ocean-content",
+    "section, .content, .ocean-content, .moon-content",
   );
   const navLinks = document.querySelectorAll("#header ul li a");
 
